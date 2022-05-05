@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,38 +8,164 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="index.css">
 
     <title>{% block title %}{% endblock %}</title>
     <style>
-        body{
+        body {
             font-family: 'Karla', sans-serif;
         }
-        .navbar {
-            background-color: black;
+
+        .navbar,
+        .footer {
+            background-color: #5d001e;
         }
-        .button{
+
+        .button {
             border-radius: 7px 0px 7px 0px;
             margin-left: 45px;
             color: black;
             font-family: 'Karla', sans-serif;
         }
-        .button:hover{
+
+        .button:hover {
             background-color: #72152a;
-           
+
         }
-        .card{
-             box-shadow: 6px 7px 9px rgb(241, 182, 191);
-             border-radius: 0px 30px 0px 30px;
-             align-items: center;
+
+        .card {
+            box-shadow: 6px 7px 9px rgb(241, 182, 191);
+            border-radius: 0px 30px 0px 30px;
+            align-items: center;
+        }
+
+        .ms-3 a {
+            color: #e3e2df;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0
+        }
+
+        .mySlides {
+            display: none
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 0.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+
+            .prev,
+            .next,
+            .text {
+                font-size: 11px
+            }
         }
     </style>
 </head>
 
-<body style="background-color: #72152a;">
+<body style="background-color: #e3e2df;">
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <a class="navbar-brand" href="/">Blood Donation System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -47,29 +174,53 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="container w-75">
-            <div class="navbar-nav">
+                <div class="navbar-nav">
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-item nav-link active" href="/profile/">Profile</a>
+                    <a class="nav-item nav-link active" href="/edit_profile/">Edit Profile</a>
+                    <a class="nav-item nav-link active" href="/see_all_request/">See All Request</a>
+                    <a class="nav-item nav-link active" href="/logout/">Logout</a>
+                    {% else %}
+                    <a class="nav-item nav-link active" href="/">Home</a>
+                    <a class="nav-item nav-link active" href="/index/">All Donors</a>
+
+                    <a class="nav-item nav-link active" href="/request_blood/">Request For Blood</a>
+                    <a class="nav-item nav-link active" href="/see_all_request/">See All Request</a>
+                    <a class="nav-item nav-link active" href="/become_donor/">Register As Donor</a>
+                    <a class="nav-item nav-link active" href="/login/">Login</a>
+                    {% endif %}
+                </div>
                 {% if request.user.is_authenticated %}
-                <a class="nav-item nav-link active" href="/profile/">Profile</a>
-                <a class="nav-item nav-link active" href="/edit_profile/">Edit Profile</a>
-                <a class="nav-item nav-link active" href="/see_all_request/">See All Request</a>
-                <a class="nav-item nav-link active" href="/logout/">Logout</a>
-                {% else %}
-                <a class="nav-item nav-link active" href="/">All Donors</a>
-                <a class="nav-item nav-link active" href="/request_blood/">Request For Blood</a>
-                <a class="nav-item nav-link active" href="/see_all_request/">See All Request</a>
-                <a class="nav-item nav-link active" href="/become_donor/">Register As Donor</a>
-                <a class="nav-item nav-link active" href="/login/">Login</a>
+                <a href="#" class="nav-item nav-link active" style="color: white;">Welcome {{request.user}}</a>
                 {% endif %}
             </div>
-            {% if request.user.is_authenticated %}
-            <a href="#" class="nav-item nav-link active" style="color: white;">Welcome {{request.user}}</a>
-            {% endif %}
-        </div>
         </div>
     </nav><br>
 
-        {% block body %}
-        {% endblock %}
+    {% block body %}
+    {% endblock %}
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top footer">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="text-muted">© 2021 Company, Inc</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3" style="color: #e3e2df;"><i class="fa-brands fa-twitter-square"></i></li>
+            <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
+                        <use xlink:href="#instagram"></use>
+                    </svg></a></li>
+            <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
+                        <use xlink:href="#facebook"></use>
+                    </svg></a></li>
+
+        </ul>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -80,8 +231,38 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/432f3edb30.js" crossorigin="anonymous"></script>
+   
+    <script>
+        let slideIndex = 1;
+showSlides(slideIndex);
 
-        {% block js %}
-        {% endblock %}
-</body> 
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+    </script>
+    {% block js %}
+    {% endblock %}
+</body>
+
 </html>

@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 
+def home(request):
+    return render(request, "home.html")
+
 def index(request):
     all_group = BloodGroup.objects.annotate(total=Count('donor'))
     return render(request, "index.html", {'all_group':all_group})
